@@ -48,7 +48,7 @@ CONSOLE_FILES =                                   \
 
 all: build
 
-build: release/biwascheme.js release/console_biwascheme.js release/node_biwascheme.js release/biwascheme-min.js
+build: release/biwascheme.js release/console_biwascheme.js release/node_biwascheme.js release/biwascheme.min.js
 
 $(VERSION_FILE): $(VERSION_FILE_IN) $(BROWSER_FILES) $(CONSOLE_FILES) VERSION Makefile
 	cat $< | sed -e "s/@GIT_COMMIT@/`git log -1 --pretty=format:%H`/" | sed -e "s/@VERSION@/`cat VERSION`/" > $@
@@ -58,7 +58,7 @@ release/biwascheme.js: $(VERSION_FILE) $(BROWSER_FILES) Makefile
 	cat $(BROWSER_FILES) >> $@
 	@echo "Wrote " $@
 
-release/biwascheme-min.js: release/biwascheme.js
+release/biwascheme.min.js: release/biwascheme.js
 	uglifyjs -o $@ release/biwascheme.js
 	@echo "Wrote " $@
 
