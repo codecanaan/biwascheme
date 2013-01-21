@@ -26,6 +26,7 @@
   var script = $("script[src$='biwascheme.js']").html() ||
                $("script[src$='biwascheme.min.js']").html() ||
 			   $("script[type='text/x-script.scheme']").html() ||
+			   $("script[type='text/x-scheme']").html() ||
 			   $("script[type='text/scheme']").html();
   if (script) {
     var intp = new BiwaScheme.Interpreter(onError);
