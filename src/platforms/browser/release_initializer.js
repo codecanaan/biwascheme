@@ -22,19 +22,34 @@
     }
   };
 
-  // Start user's program
-  var script = $("script[src$='biwascheme.js']").html() ||
-               $("script[src$='biwascheme.min.js']").html() ||
-			   $("script[type='text/x-script.scheme']").html() ||
-			   $("script[type='text/x-scheme']").html() ||
-			   $("script[type='text/scheme']").html();
-  if (script) {
-    var intp = new BiwaScheme.Interpreter(onError);
-    try{
-      intp.evaluate(script, function(){});
+  $(function() {
+
+    // Start user's program
+    var script = $("script[src$='biwascheme.js']").html() ||
+                 $("script[src$='biwascheme.min.js']").html();
+
+    if (!script) {
+      var i, nodes = document.getElementsByTagName('script');
+      for (i = nodes.length - 1; i >= 0; i--) {
+        if (nodes[i].getAttribute) {
+          var node = nodes[i];
+          var type = node.getAttribute('type');
+          if (type && type.toLowerCase() === 'text/x-scheme') {
+            script = node.textContent || node.text || node.innerText;
+          }
+        }
+      }
     }
-    catch(e){
-      onError(e);
+
+    if (script) {
+      var intp = new BiwaScheme.Interpreter(onError);
+      try{
+        intp.evaluate(script, function(){});
+      }
+      catch(e){
+        onError(e);
+      }
     }
-  }
+
+  });
 })();
